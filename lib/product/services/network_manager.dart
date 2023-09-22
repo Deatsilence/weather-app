@@ -5,10 +5,10 @@ import 'package:f_weather/product/models/base_model.dart';
 
 class NetworkManager {
   NetworkManager._init() {
-    final baseOptions = BaseOptions(baseUrl: baseUrl);
+    final baseOptions = BaseOptions(baseUrl: _baseUrl);
     _dio = Dio(baseOptions);
   }
-  static String baseUrl = "http://localhost:8080/weather";
+  static final String _baseUrl = "http://localhost:8080/weather";
   static NetworkManager? _instance;
   static NetworkManager get instance {
     _instance ??= NetworkManager._init();
@@ -18,7 +18,7 @@ class NetworkManager {
   late Dio _dio;
 
   Future<dynamic> dioGet<T extends BaseModel>(String city, T model) async {
-    final response = await _dio.get("$baseUrl/$city");
+    final response = await _dio.get("$_baseUrl/$city");
 
     switch (response.statusCode) {
       case HttpStatus.ok:

@@ -1,9 +1,11 @@
 enum WeatherStates {
-  sunny,
-  sloudy,
-  sainy,
-  snowy,
-  foggy,
-  windy,
-  stormy,
+  clearSky,
+  fewClouds,
+  scatteredClouds,
+  brokenClouds,
+  showerRain,
+  rain,
+  thunderStorm,
+  snow,
+  mist,
 }
