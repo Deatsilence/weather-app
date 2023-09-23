@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-extension CustomPadding on Widget {
+extension CustomPaddingExtension on Widget {
   allPadding({double val = 8.0}) => Padding(
         padding: EdgeInsets.all(val),
         child: this,

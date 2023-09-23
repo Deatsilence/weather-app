@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'weather_view_model.dart';
+part of 'weather_forecast_view_model.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -9,6 +9,21 @@ part of 'weather_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$WeatherViewModel on _WeatherViewModelBase, Store {
+  Computed<WeatherForecast>? _$weatherForecastComputed;
+
+  @override
+  WeatherForecast get weatherForecast => (_$weatherForecastComputed ??=
+          Computed<WeatherForecast>(() => super.weatherForecast,
+              name: '_WeatherViewModelBase.weatherForecast'))
+      .value;
+  Computed<Icon>? _$currentWeatherIconComputed;
+
+  @override
+  Icon get currentWeatherIcon => (_$currentWeatherIconComputed ??=
+          Computed<Icon>(() => super.currentWeatherIcon,
+              name: '_WeatherViewModelBase.currentWeatherIcon'))
+      .value;
+
   late final _$isLoadingAtom =
       Atom(name: '_WeatherViewModelBase.isLoading', context: context);
 
@@ -25,35 +40,35 @@ mixin _$WeatherViewModel on _WeatherViewModelBase, Store {
     });
   }
 
-  late final _$cityNameAtom =
-      Atom(name: '_WeatherViewModelBase.cityName', context: context);
+  late final _$_currentWeatherIconAtom =
+      Atom(name: '_WeatherViewModelBase._currentWeatherIcon', context: context);
 
   @override
-  String get cityName {
-    _$cityNameAtom.reportRead();
-    return super.cityName;
+  Icon get _currentWeatherIcon {
+    _$_currentWeatherIconAtom.reportRead();
+    return super._currentWeatherIcon;
   }
 
   @override
-  set cityName(String value) {
-    _$cityNameAtom.reportWrite(value, super.cityName, () {
-      super.cityName = value;
+  set _currentWeatherIcon(Icon value) {
+    _$_currentWeatherIconAtom.reportWrite(value, super._currentWeatherIcon, () {
+      super._currentWeatherIcon = value;
     });
   }
 
-  late final _$weatherForecastAtom =
-      Atom(name: '_WeatherViewModelBase.weatherForecast', context: context);
+  late final _$_weatherForecastAtom =
+      Atom(name: '_WeatherViewModelBase._weatherForecast', context: context);
 
   @override
-  WeatherForecast get weatherForecast {
-    _$weatherForecastAtom.reportRead();
-    return super.weatherForecast;
+  WeatherForecast get _weatherForecast {
+    _$_weatherForecastAtom.reportRead();
+    return super._weatherForecast;
   }
 
   @override
-  set weatherForecast(WeatherForecast value) {
-    _$weatherForecastAtom.reportWrite(value, super.weatherForecast, () {
-      super.weatherForecast = value;
+  set _weatherForecast(WeatherForecast value) {
+    _$_weatherForecastAtom.reportWrite(value, super._weatherForecast, () {
+      super._weatherForecast = value;
     });
   }
 
@@ -82,11 +97,22 @@ mixin _$WeatherViewModel on _WeatherViewModelBase, Store {
   }
 
   @override
+  dynamic getWeatherIcon({String? main}) {
+    final _$actionInfo = _$_WeatherViewModelBaseActionController.startAction(
+        name: '_WeatherViewModelBase.getWeatherIcon');
+    try {
+      return super.getWeatherIcon(main: main);
+    } finally {
+      _$_WeatherViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},
-cityName: ${cityName},
-weatherForecast: ${weatherForecast}
+weatherForecast: ${weatherForecast},
+currentWeatherIcon: ${currentWeatherIcon}
     ''';
   }
 }

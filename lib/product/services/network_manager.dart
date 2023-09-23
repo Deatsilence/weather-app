@@ -8,7 +8,7 @@ class NetworkManager {
     final baseOptions = BaseOptions(baseUrl: _baseUrl);
     _dio = Dio(baseOptions);
   }
-  static final String _baseUrl = "http://localhost:8080/weather";
+  static const String _baseUrl = "http://localhost:8080/weather";
   static NetworkManager? _instance;
   static NetworkManager get instance {
     _instance ??= NetworkManager._init();
@@ -26,7 +26,7 @@ class NetworkManager {
         if (responseBody is List) {
           return responseBody.map((e) => model.fromJson(e)).toList();
         } else if (responseBody is Map) {
-          return model.fromJson(responseBody.cast<String, dynamic>());
+          return model.fromJson(responseBody.cast<String, dynamic>()); //! compute will come here
         }
         return responseBody;
       // case HttpStatus.badRequest

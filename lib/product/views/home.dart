@@ -1,9 +1,11 @@
-import 'package:f_weather/product/constants/texts/text_manager.dart';
-import 'package:f_weather/product/state/theme_state_manager.dart';
-import 'package:f_weather/product/viewModels/weather_view_model.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:f_weather/product/extensions/seperate_for_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:weather_icons/weather_icons.dart';
+import 'package:f_weather/product/constants/texts/text_manager.dart';
+import 'package:f_weather/product/state/theme_state_manager.dart';
+import 'package:f_weather/product/viewModels/weather_forecast_view_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,7 +20,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _weatherViewModel.getWeatherForecastOfCity("iskenderun");
+    _weatherViewModel.getWeatherForecastOfCity("Ankara");
   }
 
   @override
@@ -34,17 +36,24 @@ class _HomeState extends State<Home> {
           Expanded(
             flex: 6,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _LoadingOrWeatherCityName(weatherViewModel: _weatherViewModel),
-                const _DescriptionOfCurrentweather(),
+                _LoadingOrDescriptionOfCurrentweather(weatherViewModel: _weatherViewModel),
                 _LoadingOrWeatherTemperature(weatherViewModel: _weatherViewModel),
               ],
             ),
           ),
-          const Expanded(
+          Expanded(
             flex: 3,
-            child: Icon(WeatherIcons.cloudy),
+            child: Row(
+              children: [
+                const Icon(WeatherIcons.cloudy),
+                const Icon(WeatherIcons.cloudy),
+                const Icon(WeatherIcons.cloudy),
+              ].seperate(space: 20, direction: Axis.horizontal),
+            ),
           ),
         ],
       ),
@@ -52,14 +61,41 @@ class _HomeState extends State<Home> {
   }
 }
 
-class _DescriptionOfCurrentweather extends StatelessWidget {
-  const _DescriptionOfCurrentweather();
+class _LoadingOrDescriptionOfCurrentweather extends StatelessWidget {
+  final WeatherViewModel _weatherViewModel;
+
+  const _LoadingOrDescriptionOfCurrentweather({
+    Key? key,
+    required WeatherViewModel weatherViewModel,
+  })  : _weatherViewModel = weatherViewModel,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(
-      WeatherIcons.day_sunny,
-      size: 100,
+    return Observer(
+      builder: (context) {
+        var sizeOfDevice = MediaQuery.sizeOf(context);
+        var main = _weatherViewModel.weatherForecast.weather?.first.main;
+        _weatherViewModel.getWeatherIcon(main: main);
+
+        return !_weatherViewModel.isLoading && main != null
+            ? SizedBox(
+                width: sizeOfDevice.width * 0.5,
+                height: sizeOfDevice.height * 0.23,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _weatherViewModel.currentWeatherIcon,
+                    Text(
+                      main,
+                      style: GetThemeStateManager.themeStateManager.theme.textTheme.titleMedium,
+                    ),
+                  ],
+                ),
+              )
+            : const CircularProgressIndicator.adaptive();
+      },
     );
   }
 }
@@ -69,18 +105,20 @@ class _TodaysReportTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (_) {
-      return Expanded(
-        flex: 1,
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            TextManager.textTodaysReport,
-            style: GetThemeStateManager.themeStateManager.theme.textTheme.titleMedium,
+    return Observer(
+      builder: (_) {
+        return Expanded(
+          flex: 1,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              TextManager.textTodaysReport,
+              style: GetThemeStateManager.themeStateManager.theme.textTheme.titleMedium,
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }
 
@@ -95,6 +133,7 @@ class _LoadingOrWeatherCityName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("CityName: ${_weatherViewModel.weatherForecast.name}");
     return Observer(
       builder: (context) => _weatherViewModel.isLoading
           ? const CircularProgressIndicator.adaptive()
