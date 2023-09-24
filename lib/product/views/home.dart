@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:f_weather/product/extensions/seperate_for_list_widget.dart';
+import 'package:f_weather/product/init/theme/utility/border_radius_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:weather_icons/weather_icons.dart';
@@ -19,45 +19,100 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    _weatherViewModel.getWeatherForecastOfCity("New York");
     super.initState();
-    _weatherViewModel.getWeatherForecastOfCity("Ankara");
+  }
+
+  Future<void> refresh() async {
+    await _weatherViewModel.getWeatherForecastOfCity("Berlin");
   }
 
   @override
   Widget build(BuildContext context) {
     debugPrint("Home build");
+    final sizeOfDevice = MediaQuery.sizeOf(context);
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const _TodaysReportTitle(),
-          Expanded(
-            flex: 6,
+      body: RefreshIndicator.adaptive(
+        onRefresh: refresh,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SizedBox(
+            height: sizeOfDevice.height * 0.70,
+            width: sizeOfDevice.width * 0.9,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _LoadingOrWeatherCityName(weatherViewModel: _weatherViewModel),
-                _LoadingOrDescriptionOfCurrentweather(weatherViewModel: _weatherViewModel),
-                _LoadingOrWeatherTemperature(weatherViewModel: _weatherViewModel),
+                const _TodaysReportTitle(),
+                Expanded(
+                  flex: 6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _LoadingOrWeatherCityName(weatherViewModel: _weatherViewModel),
+                      _LoadingOrDescriptionOfCurrentweather(weatherViewModel: _weatherViewModel),
+                      _LoadingOrWeatherTemperature(weatherViewModel: _weatherViewModel),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(width: sizeOfDevice.width * 0.02),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 7,
+                    itemBuilder: (BuildContext context, int index) {
+                      return DailyWeatherForecastCard(sizeOfDevice: sizeOfDevice);
+                    },
+                  ),
+                ),
               ],
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: Row(
-              children: [
-                const Icon(WeatherIcons.cloudy),
-                const Icon(WeatherIcons.cloudy),
-                const Icon(WeatherIcons.cloudy),
-              ].seperate(space: 20, direction: Axis.horizontal),
-            ),
-          ),
-        ],
+        ),
       ),
     );
+  }
+}
+
+class DailyWeatherForecastCard extends StatelessWidget {
+  const DailyWeatherForecastCard({
+    super.key,
+    required this.sizeOfDevice,
+  });
+
+  final Size sizeOfDevice;
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(builder: (_) {
+      return Container(
+        decoration: BoxDecoration(
+          color: GetThemeStateManager.themeStateManager.theme.cardTheme.color,
+          borderRadius: BorderRadiusManager.commonAllBorderRadius,
+        ),
+        width: sizeOfDevice.width * 0.25,
+        height: sizeOfDevice.height * 0.16,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text("Mon", style: GetThemeStateManager.themeStateManager.theme.textTheme.titleSmall),
+            const Icon(WeatherIcons.day_sunny),
+            Text(
+              "15",
+              style: GetThemeStateManager.themeStateManager.theme.textTheme.titleSmall,
+            ),
+            Text(
+              "Sunny",
+              style: GetThemeStateManager.themeStateManager.theme.textTheme.titleSmall,
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -74,7 +129,7 @@ class _LoadingOrDescriptionOfCurrentweather extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        var sizeOfDevice = MediaQuery.sizeOf(context);
+        var sizeOfDevice = MediaQuery.of(context).size;
         var main = _weatherViewModel.weatherForecast.weather?.first.main;
         _weatherViewModel.getWeatherIcon(main: main);
 

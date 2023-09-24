@@ -8,6 +8,9 @@ final class ThemeDataManager {
   ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
+      cardTheme: CardTheme(
+        color: ColorManager.darkSecondaryColor,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         floatingLabelBehavior: FloatingLabelBehavior.never,
         hintStyle: const TextStyle(
@@ -68,6 +71,9 @@ final class ThemeDataManager {
   ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
+      cardTheme: CardTheme(
+        color: ColorManager.lightSecondaryColor,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         floatingLabelBehavior: FloatingLabelBehavior.never,
         hintStyle: const TextStyle(

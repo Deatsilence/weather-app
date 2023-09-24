@@ -20,37 +20,39 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint("CustomBottomNavigationBar build");
 
-    return Observer(builder: (_) {
-      return Container(
-        decoration: BoxDecoration(
-          color: GetThemeStateManager.themeStateManager.theme.bottomNavigationBarTheme.backgroundColor,
-          borderRadius: BorderRadiusManager.commonAllBorderRadius,
-        ),
-        child: GNav(
-          activeColor: GetThemeStateManager.themeStateManager.theme.bottomNavigationBarTheme.selectedItemColor,
-          color: GetThemeStateManager.themeStateManager.theme.bottomNavigationBarTheme.unselectedItemColor,
-          gap: 8,
-          selectedIndex: GetRooteStateManager.rootStateManager.selectedIndexOfBottomNavigationBar,
-          onTabChange: (index) {
-            GetRooteStateManager.rootStateManager.setIndex(index);
-            debugPrint(GetRooteStateManager.rootStateManager.selectedIndexOfBottomNavigationBar.toString());
-          },
-          tabs: const [
-            GButton(
-              icon: FontAwesomeIcons.house,
-              text: TextManager.textHome,
-            ),
-            GButton(
-              icon: FontAwesomeIcons.magnifyingGlass,
-              text: TextManager.textSearch,
-            ),
-            GButton(
-              icon: FontAwesomeIcons.locationCrosshairs,
-              text: TextManager.textCurrent,
-            ),
-          ],
-        ),
-      );
-    });
+    return Observer(
+      builder: (_) {
+        return Container(
+          decoration: BoxDecoration(
+            color: GetThemeStateManager.themeStateManager.theme.bottomNavigationBarTheme.backgroundColor,
+            borderRadius: BorderRadiusManager.commonAllBorderRadius,
+          ),
+          child: GNav(
+            activeColor: GetThemeStateManager.themeStateManager.theme.bottomNavigationBarTheme.selectedItemColor,
+            color: GetThemeStateManager.themeStateManager.theme.bottomNavigationBarTheme.unselectedItemColor,
+            gap: 8,
+            selectedIndex: GetRooteStateManager.rootStateManager.selectedIndexOfBottomNavigationBar,
+            onTabChange: (index) {
+              GetRooteStateManager.rootStateManager.setIndex(index);
+              debugPrint(GetRooteStateManager.rootStateManager.selectedIndexOfBottomNavigationBar.toString());
+            },
+            tabs: const [
+              GButton(
+                icon: FontAwesomeIcons.house,
+                text: TextManager.textHome,
+              ),
+              GButton(
+                icon: FontAwesomeIcons.magnifyingGlass,
+                text: TextManager.textSearch,
+              ),
+              GButton(
+                icon: FontAwesomeIcons.locationCrosshairs,
+                text: TextManager.textCurrent,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
