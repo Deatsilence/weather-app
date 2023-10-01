@@ -1,6 +1,5 @@
 import 'package:f_weather/product/constants/enums/navigate_routes_enum.dart';
 import 'package:f_weather/product/extensions/navigate_routes_extension.dart';
-import 'package:f_weather/product/views/current_place.dart';
 import 'package:f_weather/product/views/home.dart';
 import 'package:f_weather/product/views/search_places.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,6 @@ final class NavigatorRoutes {
   static const List<Widget> _navPages = [
     Home(),
     SearchPlaces(),
-    CurrentPlace(),
   ];
 
   GoRouter get router => _router;

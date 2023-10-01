@@ -42,10 +42,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 icon: FontAwesomeIcons.magnifyingGlass,
                 text: TextManager.textSearch,
               ),
-              GButton(
-                icon: FontAwesomeIcons.locationCrosshairs,
-                text: TextManager.textCurrent,
-              ),
             ],
           ),
         );

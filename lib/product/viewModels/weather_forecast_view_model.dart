@@ -18,14 +18,8 @@ abstract class _WeatherViewModelBase with Store {
   @observable
   WeatherForecast _weatherForecast = WeatherForecast();
 
-  @observable
-  String _cityName = "Ankara";
-
   @computed
   WeatherForecast get weatherForecast => _weatherForecast;
-
-  @computed
-  String get cityName => _cityName;
 
   @computed
   Icon get currentWeatherIcon => _currentWeatherIcon;
@@ -35,8 +29,6 @@ abstract class _WeatherViewModelBase with Store {
     changeLoading();
     final response = await WeatherNetworkManager.instance.dioGet<WeatherForecast>(cityName, WeatherForecast());
     if (response is WeatherForecast) {
-      debugPrint("response.name: ${response.name}");
-      _cityName = response.name!;
       _weatherForecast = response;
     }
     changeLoading();

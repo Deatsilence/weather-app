@@ -65,9 +65,7 @@ class _SearchPlacesState extends State<SearchPlaces> with TextFormFieldValidatio
                                     : Text("${place![0]}, ${place[1]}, ${place[2]}"),
                                 leading: const Icon(Icons.location_on_outlined),
                                 onTap: () {
-                                  debugPrint("selected: ${place[0]}");
                                   GetHomeStateManager.homeStateManager.setCityName(place[0]);
-                                  debugPrint("city: ${weatherViewModel.cityName}");
                                   GetRooteStateManager.rootStateManager.setIndex(NavigateRoutes.home.index);
                                 },
                               );

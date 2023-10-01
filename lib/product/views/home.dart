@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> refresh() async {
-    await _weatherViewModel.getWeatherForecastOfCity("Berlin");
+    await _weatherViewModel.getWeatherForecastOfCity(GetHomeStateManager.homeStateManager.cityName);
   }
 
   @override
@@ -137,7 +137,7 @@ class _LoadingOrDescriptionOfCurrentweather extends StatelessWidget {
 
         return !_weatherViewModel.isLoading && main != null
             ? SizedBox(
-                width: sizeOfDevice.width * 0.5,
+                width: sizeOfDevice.width,
                 height: sizeOfDevice.height * 0.23,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,7 +191,6 @@ class _LoadingOrWeatherCityName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      debugPrint("CityName: ${_weatherViewModel.weatherForecast.name}");
       return _weatherViewModel.isLoading
           ? const CircularProgressIndicator.adaptive()
           : Text(
