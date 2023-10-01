@@ -36,7 +36,6 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Root build");
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,

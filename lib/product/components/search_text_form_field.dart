@@ -1,14 +1,20 @@
-import 'package:f_weather/product/state/search_places_manager.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import 'package:f_weather/product/state/search_places_manager.dart';
+
 class SearchTextFormField extends StatelessWidget {
   const SearchTextFormField({
-    super.key,
+    Key? key,
     required this.controller,
-  });
+    this.onSubmitted,
+    this.onChange,
+  }) : super(key: key);
 
   final TextEditingController controller;
+  final void Function(String)? onChange;
+  final void Function(String)? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +59,18 @@ class SearchTextFormField extends StatelessWidget {
           },
           enableInteractiveSelection: true,
           onChanged: (value) {
+            onChange?.call(value);
             value.isNotEmpty
                 ? GetSearchPlacesStateManager.searchPlacesManager.changeClearButtonState(isActive: true)
                 : GetSearchPlacesStateManager.searchPlacesManager.changeClearButtonState(isActive: false);
           },
+          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+          onSubmitted: onSubmitted,
           controller: controller,
           autofocus: true,
           keyboardType: TextInputType.streetAddress,
           maxLines: 1,
           autocorrect: false,
-          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           decoration: InputDecoration(
             suffixIcon: GetSearchPlacesStateManager.searchPlacesManager.isActiveClearButton
                 ? IconButton(

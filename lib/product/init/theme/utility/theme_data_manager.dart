@@ -8,6 +8,9 @@ final class ThemeDataManager {
   ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
+      dividerTheme: DividerThemeData(
+        color: ColorManager.lightPrimaryColor,
+      ),
       cardTheme: CardTheme(
         color: ColorManager.darkSecondaryColor,
       ),
@@ -71,6 +74,9 @@ final class ThemeDataManager {
   ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
+      dividerTheme: DividerThemeData(
+        color: ColorManager.darkPrimaryColor,
+      ),
       cardTheme: CardTheme(
         color: ColorManager.lightSecondaryColor,
       ),

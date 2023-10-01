@@ -16,6 +16,13 @@ mixin _$WeatherViewModel on _WeatherViewModelBase, Store {
           Computed<WeatherForecast>(() => super.weatherForecast,
               name: '_WeatherViewModelBase.weatherForecast'))
       .value;
+  Computed<String>? _$cityNameComputed;
+
+  @override
+  String get cityName =>
+      (_$cityNameComputed ??= Computed<String>(() => super.cityName,
+              name: '_WeatherViewModelBase.cityName'))
+          .value;
   Computed<Icon>? _$currentWeatherIconComputed;
 
   @override
@@ -72,6 +79,22 @@ mixin _$WeatherViewModel on _WeatherViewModelBase, Store {
     });
   }
 
+  late final _$_cityNameAtom =
+      Atom(name: '_WeatherViewModelBase._cityName', context: context);
+
+  @override
+  String get _cityName {
+    _$_cityNameAtom.reportRead();
+    return super._cityName;
+  }
+
+  @override
+  set _cityName(String value) {
+    _$_cityNameAtom.reportWrite(value, super._cityName, () {
+      super._cityName = value;
+    });
+  }
+
   late final _$getWeatherForecastOfCityAsyncAction = AsyncAction(
       '_WeatherViewModelBase.getWeatherForecastOfCity',
       context: context);
@@ -112,6 +135,7 @@ mixin _$WeatherViewModel on _WeatherViewModelBase, Store {
     return '''
 isLoading: ${isLoading},
 weatherForecast: ${weatherForecast},
+cityName: ${cityName},
 currentWeatherIcon: ${currentWeatherIcon}
     ''';
   }

@@ -1,6 +1,6 @@
 enum NavigateRoutes {
-  root,
   home,
+  root,
   search,
   current,
   sample,

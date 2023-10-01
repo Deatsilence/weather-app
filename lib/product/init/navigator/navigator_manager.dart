@@ -7,7 +7,6 @@ final class NavigatorManager {
   static NavigatorManager instance = NavigatorManager._();
 
   void go(BuildContext context, {required String route, Object? extras}) {
-    // GoRouter.of(context).goNamed(route);
     context.go(route);
   }
 }

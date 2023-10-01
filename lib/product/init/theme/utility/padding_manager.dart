@@ -11,4 +11,7 @@ final class PaddingManager {
   static const double onlyTopOfBottomNavigationBar = 16;
   static const double onlyTopOfSearchTextField = 40;
   static const double onlyTopOfSearchPlacesText = 8;
+  static const double onlyLeftOfTempOfPlace = 5;
+  static const double onlyBottomOfTempOfPlace = 5;
+  static const double onlyRightOfIconOfWeather = 32;
 }

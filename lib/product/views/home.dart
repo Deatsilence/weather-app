@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:f_weather/product/extensions/padding_extension.dart';
 import 'package:f_weather/product/init/theme/utility/border_radius_manager.dart';
+import 'package:f_weather/product/init/theme/utility/padding_manager.dart';
+import 'package:f_weather/product/state/home_state_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:weather_icons/weather_icons.dart';
@@ -19,7 +22,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _weatherViewModel.getWeatherForecastOfCity("New York");
+    _weatherViewModel.getWeatherForecastOfCity(GetHomeStateManager.homeStateManager.cityName);
     super.initState();
   }
 
@@ -29,7 +32,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Home build");
     final sizeOfDevice = MediaQuery.sizeOf(context);
 
     return Scaffold(
@@ -39,7 +41,7 @@ class _HomeState extends State<Home> {
           physics: const AlwaysScrollableScrollPhysics(),
           child: SizedBox(
             height: sizeOfDevice.height * 0.70,
-            width: sizeOfDevice.width * 0.9,
+            width: sizeOfDevice.width * 0.95,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -141,7 +143,7 @@ class _LoadingOrDescriptionOfCurrentweather extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _weatherViewModel.currentWeatherIcon,
+                    _weatherViewModel.currentWeatherIcon.onlyPadding(right: PaddingManager.onlyRightOfIconOfWeather),
                     Text(
                       main,
                       style: GetThemeStateManager.themeStateManager.theme.textTheme.titleMedium,
@@ -188,15 +190,15 @@ class _LoadingOrWeatherCityName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("CityName: ${_weatherViewModel.weatherForecast.name}");
-    return Observer(
-      builder: (context) => _weatherViewModel.isLoading
+    return Observer(builder: (context) {
+      debugPrint("CityName: ${_weatherViewModel.weatherForecast.name}");
+      return _weatherViewModel.isLoading
           ? const CircularProgressIndicator.adaptive()
           : Text(
               _weatherViewModel.weatherForecast.name ?? "unknown",
               style: GetThemeStateManager.themeStateManager.theme.textTheme.titleLarge,
-            ),
-    );
+            );
+    });
   }
 }
 
@@ -214,9 +216,18 @@ class _LoadingOrWeatherTemperature extends StatelessWidget {
     return Observer(
       builder: (context) => _weatherViewModel.isLoading
           ? const CircularProgressIndicator.adaptive()
-          : Text(
-              _weatherViewModel.weatherForecast.main?.temp?.floor().toString() ?? "unknown",
-              style: GetThemeStateManager.themeStateManager.theme.textTheme.titleLarge,
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _weatherViewModel.weatherForecast.main?.temp?.floor().toString() ?? "unknown",
+                  style: GetThemeStateManager.themeStateManager.theme.textTheme.titleLarge,
+                ),
+                const Icon(WeatherIcons.celsius),
+              ],
+            ).onlyPadding(
+              left: PaddingManager.onlyLeftOfTempOfPlace,
+              bottom: PaddingManager.onlyBottomOfTempOfPlace,
             ),
     );
   }

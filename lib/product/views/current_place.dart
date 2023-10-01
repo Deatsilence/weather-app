@@ -13,8 +13,6 @@ class _CurrentPlaceState extends State<CurrentPlace> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("CurrentPlace build");
-
     Future<void> refresh() async {
       setState(() {
         // list = [...list, ...List.generate(10, (index) => index + list.length)];

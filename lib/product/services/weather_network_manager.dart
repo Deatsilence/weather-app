@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:f_weather/product/models/base_model.dart';
 
-class NetworkManager {
-  NetworkManager._init() {
+class WeatherNetworkManager {
+  WeatherNetworkManager._init() {
     final baseOptions = BaseOptions(baseUrl: _baseUrl);
     _dio = Dio(baseOptions);
   }
   static const String _baseUrl = "http://localhost:8080/weather";
-  static NetworkManager? _instance;
-  static NetworkManager get instance {
-    _instance ??= NetworkManager._init();
+  static WeatherNetworkManager? _instance;
+  static WeatherNetworkManager get instance {
+    _instance ??= WeatherNetworkManager._init();
     return _instance!;
   }
 

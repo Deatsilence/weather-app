@@ -1,6 +1,6 @@
 import 'package:f_weather/product/constants/texts/text_manager.dart';
 import 'package:f_weather/product/models/weather_forecast_model.dart';
-import 'package:f_weather/product/services/network_manager.dart';
+import 'package:f_weather/product/services/weather_network_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:weather_icons/weather_icons.dart';
@@ -18,8 +18,14 @@ abstract class _WeatherViewModelBase with Store {
   @observable
   WeatherForecast _weatherForecast = WeatherForecast();
 
+  @observable
+  String _cityName = "Ankara";
+
   @computed
   WeatherForecast get weatherForecast => _weatherForecast;
+
+  @computed
+  String get cityName => _cityName;
 
   @computed
   Icon get currentWeatherIcon => _currentWeatherIcon;
@@ -27,8 +33,10 @@ abstract class _WeatherViewModelBase with Store {
   @action
   Future<void> getWeatherForecastOfCity(String cityName) async {
     changeLoading();
-    final response = await NetworkManager.instance.dioGet<WeatherForecast>(cityName, WeatherForecast());
+    final response = await WeatherNetworkManager.instance.dioGet<WeatherForecast>(cityName, WeatherForecast());
     if (response is WeatherForecast) {
+      debugPrint("response.name: ${response.name}");
+      _cityName = response.name!;
       _weatherForecast = response;
     }
     changeLoading();
@@ -90,18 +98,7 @@ abstract class _WeatherViewModelBase with Store {
     }
   }
 }
-  // static const String textThunderstorm = "Thunderstorm";
-  // static const String textDrizzle = "Drizzle";
-  // static const String textRain = "Rain";
-  // static const String textSnow = "Snow";
-  // static const String textMist = "Mist";
-  // static const String textSmoke = "Smoke";
-  // static const String textHaze = "Haze";
-  // static const String textDust = "Haze";
-  // static const String textFog = "Fog";
-  // static const String textSand = "Sand";
-  // static const String textAsh = "Ash";
-  // static const String textSquall = "Squall";
-  // static const String textTornado = "Tornado";
-  // static const String textClear = "Clear";
-  // static const String textClouds = "Clouds";
+
+class GetWeatherViewModelManager {
+  static final WeatherViewModel weatherViewModel = WeatherViewModel();
+}

@@ -18,8 +18,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("CustomBottomNavigationBar build");
-
     return Observer(
       builder: (_) {
         return Container(
@@ -34,7 +32,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
             selectedIndex: GetRooteStateManager.rootStateManager.selectedIndexOfBottomNavigationBar,
             onTabChange: (index) {
               GetRooteStateManager.rootStateManager.setIndex(index);
-              debugPrint(GetRooteStateManager.rootStateManager.selectedIndexOfBottomNavigationBar.toString());
             },
             tabs: const [
               GButton(
