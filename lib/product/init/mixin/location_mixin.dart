@@ -2,12 +2,12 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class GetCurrentLocation {
-  static Future<List<Placemark>> getAddressFromLetLong(Position position) async {
+  Future<List<Placemark>> getAddressFromLetLong(Position position) async {
     List<Placemark> placemark = await placemarkFromCoordinates(position.latitude, position.longitude);
     return placemark;
   }
 
-  static Future<Position> determinePosition() async {
+  Future<Position> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -39,5 +39,12 @@ class GetCurrentLocation {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
+  }
+
+  Future<String> getCurrentLocationName() async {
+    Position position = await determinePosition();
+    List<Placemark> placemark = await getAddressFromLetLong(position);
+
+    return placemark.first.locality ?? "Iskenderun";
   }
 }

@@ -120,9 +120,9 @@ class CurrentLocationIcon extends StatelessWidget {
         } else {
           return IconButton(
             onPressed: () async {
-              var position = await GetCurrentLocation.determinePosition();
-              var placemarks = await GetCurrentLocation.getAddressFromLetLong(position);
-              GetHomeStateManager.homeStateManager.setCityName(placemarks[0].locality ?? "Iskenderun");
+              var getCurrentLocation = GetCurrentLocation();
+              String locality = await getCurrentLocation.getCurrentLocationName();
+              GetHomeStateManager.homeStateManager.setCityName(locality);
               GetRooteStateManager.rootStateManager.setIndex(NavigateRoutes.home.index);
             },
             icon: Icon(

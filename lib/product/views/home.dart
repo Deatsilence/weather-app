@@ -22,12 +22,13 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _weatherViewModel.getWeatherForecastOfCity(GetHomeStateManager.homeStateManager.cityName);
+    GetHomeStateManager.homeStateManager.getCurrentCityName().whenComplete(
+        () => _weatherViewModel.getWeatherForecastOfCity(GetHomeStateManager.homeStateManager.getCityName));
     super.initState();
   }
 
   Future<void> refresh() async {
-    await _weatherViewModel.getWeatherForecastOfCity(GetHomeStateManager.homeStateManager.cityName);
+    await _weatherViewModel.getWeatherForecastOfCity(GetHomeStateManager.homeStateManager.getCityName);
   }
 
   @override
@@ -194,7 +195,7 @@ class _LoadingOrWeatherCityName extends StatelessWidget {
       return _weatherViewModel.isLoading
           ? const CircularProgressIndicator.adaptive()
           : Text(
-              _weatherViewModel.weatherForecast.name ?? "unknown",
+              _weatherViewModel.weatherForecast.name ?? "",
               style: GetThemeStateManager.themeStateManager.theme.textTheme.titleLarge,
             );
     });
@@ -219,7 +220,7 @@ class _LoadingOrWeatherTemperature extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  _weatherViewModel.weatherForecast.main?.temp?.floor().toString() ?? "unknown",
+                  _weatherViewModel.weatherForecast.main?.temp?.floor().toString() ?? "",
                   style: GetThemeStateManager.themeStateManager.theme.textTheme.titleLarge,
                 ),
                 const Icon(WeatherIcons.celsius),
