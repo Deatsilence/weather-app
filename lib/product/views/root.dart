@@ -1,12 +1,17 @@
 import 'package:f_weather/product/components/custom_bottom_navigation_bar.dart';
+import 'package:f_weather/product/constants/enums/navigate_routes_enum.dart';
 import 'package:f_weather/product/constants/path_of_assets/lottie_url.dart';
 import 'package:f_weather/product/extensions/padding_extension.dart';
+import 'package:f_weather/product/init/mixin/location_mixin.dart';
 import 'package:f_weather/product/init/navigator/navigator_routes.dart';
+import 'package:f_weather/product/init/theme/utility/color_manager.dart';
 import 'package:f_weather/product/init/theme/utility/padding_manager.dart';
+import 'package:f_weather/product/state/home_state_manager.dart';
 import 'package:f_weather/product/state/root_state_manager.dart';
 import 'package:f_weather/product/state/theme_state_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 
 class Root extends StatefulWidget {
@@ -38,6 +43,7 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const CurrentLocationIcon(),
         forceMaterialTransparency: true,
         scrolledUnderElevation: 0.0,
         actions: [
@@ -98,6 +104,34 @@ class _ChangeThemeToggleButton extends StatelessWidget {
           _animationController.animateTo(0.5);
         },
       ),
+    );
+  }
+}
+
+class CurrentLocationIcon extends StatelessWidget {
+  const CurrentLocationIcon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) {
+        if (GetRooteStateManager.rootStateManager.selectedIndexOfBottomNavigationBar == NavigateRoutes.home.index) {
+          return const SizedBox.shrink();
+        } else {
+          return IconButton(
+            onPressed: () async {
+              var position = await GetCurrentLocation.determinePosition();
+              var placemarks = await GetCurrentLocation.getAddressFromLetLong(position);
+              GetHomeStateManager.homeStateManager.setCityName(placemarks[0].locality ?? "Iskenderun");
+              GetRooteStateManager.rootStateManager.setIndex(NavigateRoutes.home.index);
+            },
+            icon: Icon(
+              FontAwesomeIcons.locationCrosshairs,
+              color: ColorManager.activeColor,
+            ),
+          );
+        }
+      },
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:f_weather/product/models/base_model.dart';
+import 'package:flutter/material.dart';
 
 class WeatherNetworkManager {
   WeatherNetworkManager._init() {
@@ -18,19 +19,23 @@ class WeatherNetworkManager {
   late Dio _dio;
 
   Future<dynamic> dioGet<T extends BaseModel>(String city, T model) async {
-    final response = await _dio.get("$_baseUrl/$city");
+    try {
+      final response = await _dio.get("$_baseUrl/$city");
 
-    switch (response.statusCode) {
-      case HttpStatus.ok:
-        final responseBody = response.data;
-        if (responseBody is List) {
-          return responseBody.map((e) => model.fromJson(e)).toList();
-        } else if (responseBody is Map) {
-          return model.fromJson(responseBody.cast<String, dynamic>()); //! compute will come here
-        }
-        return responseBody;
-      // case HttpStatus.badRequest
-      default:
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = response.data;
+          if (responseBody is List) {
+            return responseBody.map((e) => model.fromJson(e)).toList();
+          } else if (responseBody is Map) {
+            return model.fromJson(responseBody.cast<String, dynamic>()); //! compute will come here
+          }
+          return responseBody;
+        // case HttpStatus.badRequest
+        default:
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }

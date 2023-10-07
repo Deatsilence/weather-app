@@ -5,7 +5,7 @@ class HomeStateManager = HomeStateManagerBase with _$HomeStateManager;
 
 abstract class HomeStateManagerBase with Store {
   @observable
-  String cityName = "Kars";
+  String cityName = "Iskenderun";
 
   @action
   void setCityName(String name) {
