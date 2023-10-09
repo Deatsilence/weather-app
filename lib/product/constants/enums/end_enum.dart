@@ -1,0 +1,4 @@
+enum End {
+  weather,
+  forecast,
+}

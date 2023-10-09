@@ -9,7 +9,7 @@ class WeatherNetworkManager {
     final baseOptions = BaseOptions(baseUrl: _baseUrl);
     _dio = Dio(baseOptions);
   }
-  static const String _baseUrl = "http://localhost:8080/weather";
+  static const String _baseUrl = "http://localhost:8080";
   static WeatherNetworkManager? _instance;
   static WeatherNetworkManager get instance {
     _instance ??= WeatherNetworkManager._init();
@@ -18,18 +18,23 @@ class WeatherNetworkManager {
 
   late Dio _dio;
 
-  Future<dynamic> dioGet<T extends BaseModel>(String city, T model) async {
+  Future<dynamic> dioGet<T extends BaseModel>(
+      {String end = "/weather", Map<String, dynamic>? queryParameters, T? model}) async {
     try {
-      final response = await _dio.get("$_baseUrl/$city");
+      final response = await _dio.get(
+        "$_baseUrl$end",
+        queryParameters: queryParameters,
+      );
 
       switch (response.statusCode) {
         case HttpStatus.ok:
           final responseBody = response.data;
-          if (responseBody is List) {
+          if (responseBody is List && model != null) {
             return responseBody.map((e) => model.fromJson(e)).toList();
-          } else if (responseBody is Map) {
+          } else if (responseBody is Map && model != null) {
             return model.fromJson(responseBody.cast<String, dynamic>()); //! compute will come here
           }
+
           return responseBody;
         // case HttpStatus.badRequest
         default:

@@ -65,6 +65,7 @@ final class ThemeDataManager {
           fontWeight: FontWeight.bold,
           color: ColorManager.lightPrimaryColor,
         ),
+        bodySmall: TextStyle(fontSize: 14, color: ColorManager.lightPrimaryColor, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -133,6 +134,11 @@ final class ThemeDataManager {
           fontSize: 20,
           fontWeight: FontWeight.bold,
           color: ColorManager.darkPrimaryColor,
+        ),
+        bodySmall: TextStyle(
+          fontSize: 14,
+          color: ColorManager.darkPrimaryColor,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

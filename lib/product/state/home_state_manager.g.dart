@@ -16,6 +16,20 @@ mixin _$HomeStateManager on HomeStateManagerBase, Store {
       (_$getCityNameComputed ??= Computed<String>(() => super.getCityName,
               name: 'HomeStateManagerBase.getCityName'))
           .value;
+  Computed<double>? _$getLatComputed;
+
+  @override
+  double get getLat =>
+      (_$getLatComputed ??= Computed<double>(() => super.getLat,
+              name: 'HomeStateManagerBase.getLat'))
+          .value;
+  Computed<double>? _$getLonComputed;
+
+  @override
+  double get getLon =>
+      (_$getLonComputed ??= Computed<double>(() => super.getLon,
+              name: 'HomeStateManagerBase.getLon'))
+          .value;
 
   late final _$_cityNameAtom =
       Atom(name: 'HomeStateManagerBase._cityName', context: context);
@@ -33,6 +47,38 @@ mixin _$HomeStateManager on HomeStateManagerBase, Store {
     });
   }
 
+  late final _$_latAtom =
+      Atom(name: 'HomeStateManagerBase._lat', context: context);
+
+  @override
+  double get _lat {
+    _$_latAtom.reportRead();
+    return super._lat;
+  }
+
+  @override
+  set _lat(double value) {
+    _$_latAtom.reportWrite(value, super._lat, () {
+      super._lat = value;
+    });
+  }
+
+  late final _$_lonAtom =
+      Atom(name: 'HomeStateManagerBase._lon', context: context);
+
+  @override
+  double get _lon {
+    _$_lonAtom.reportRead();
+    return super._lon;
+  }
+
+  @override
+  set _lon(double value) {
+    _$_lonAtom.reportWrite(value, super._lon, () {
+      super._lon = value;
+    });
+  }
+
   late final _$getCurrentCityNameAsyncAction =
       AsyncAction('HomeStateManagerBase.getCurrentCityName', context: context);
 
@@ -40,6 +86,24 @@ mixin _$HomeStateManager on HomeStateManagerBase, Store {
   Future<void> getCurrentCityName() {
     return _$getCurrentCityNameAsyncAction
         .run(() => super.getCurrentCityName());
+  }
+
+  late final _$getCurrentPositionAsyncAction =
+      AsyncAction('HomeStateManagerBase.getCurrentPosition', context: context);
+
+  @override
+  Future<void> getCurrentPosition() {
+    return _$getCurrentPositionAsyncAction
+        .run(() => super.getCurrentPosition());
+  }
+
+  late final _$getSelectedPositionAsyncAction =
+      AsyncAction('HomeStateManagerBase.getSelectedPosition', context: context);
+
+  @override
+  Future<void> getSelectedPosition(double lat, double lon) {
+    return _$getSelectedPositionAsyncAction
+        .run(() => super.getSelectedPosition(lat, lon));
   }
 
   late final _$HomeStateManagerBaseActionController =
@@ -57,9 +121,22 @@ mixin _$HomeStateManager on HomeStateManagerBase, Store {
   }
 
   @override
+  void setPosition(double lat, double lon) {
+    final _$actionInfo = _$HomeStateManagerBaseActionController.startAction(
+        name: 'HomeStateManagerBase.setPosition');
+    try {
+      return super.setPosition(lat, lon);
+    } finally {
+      _$HomeStateManagerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-getCityName: ${getCityName}
+getCityName: ${getCityName},
+getLat: ${getLat},
+getLon: ${getLon}
     ''';
   }
 }
