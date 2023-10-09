@@ -135,9 +135,20 @@ class DailyWeatherForecastCard extends StatelessWidget {
             Expanded(flex: 1, child: icon),
             Expanded(
               flex: 1,
-              child: Text(
-                temp,
-                style: GetThemeStateManager.themeStateManager.theme.textTheme.titleSmall,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    temp,
+                    style: GetThemeStateManager.themeStateManager.theme.textTheme.titleSmall,
+                  ),
+                  const Icon(WeatherIcons.celsius).onlyPadding(
+                    bottom: PaddingManager.onlyBottomOfTempOfPlace,
+                  ),
+                ],
+              ).onlyPadding(
+                left: PaddingManager.onlyLeftOfTempOfPlace,
+                bottom: PaddingManager.onlyBottomOfTempOfPlace,
               ),
             ),
             Expanded(
